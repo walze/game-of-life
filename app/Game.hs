@@ -6,14 +6,14 @@ import Data.Bifunctor
 import Control.Monad (foldM)
 
 fps :: Int
-fps = 15
+fps = 1
 
 wWidth :: Float
 wWidth = 1200.0
 wHeight :: Float
 wHeight = 800.0
 gSize :: Float
-gSize = 5.0
+gSize = 250.0
 
 cwSize :: Float
 cwSize = wWidth / gSize
@@ -38,4 +38,4 @@ newtype GameState = GameState {
 
 initialState :: GameState
 initialState = GameState
-  $ fmap (\(a, b) -> ((a, b), b `mod` 3 == 0)) cellCoords
+  $ fmap (\(a, b) -> ((a, b), b `mod` 7 == 0)) cellCoords
