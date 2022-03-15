@@ -36,6 +36,7 @@ executable gameoflife-exe
   main-is: Main.hs
   other-modules:
       Game
+      Neighboring
       Rendering
       Paths_gameoflife
   hs-source-dirs:

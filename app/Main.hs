@@ -6,7 +6,9 @@ import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
 import Data.Matrix (toList)
 
-a = neighboring (1, 1) (cells initialState)
+import Neighboring
+
+a = neighboring (2, 1) (cells initialState)
 
 main :: IO ()
 main = do
