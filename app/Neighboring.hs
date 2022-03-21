@@ -36,10 +36,11 @@ neighboring (x, y) g = Neighboring {
     br = safeGet  (x + 1) (y - 1) g
 
 aliveNeighbors :: Neighboring Cell -> Maybe Int
-aliveNeighbors a = foldM (\b cell ->
+aliveNeighbors a =
+  foldM (\b cell ->
     case cell of
       Nothing -> Just b
-      Just (_, alive) -> Just (b + fromEnum alive)
+      Just alive -> Just (b + fromEnum alive)
     ) 0
   $ neighbors
   <*> [a]

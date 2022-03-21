@@ -6,14 +6,14 @@ import Data.Bifunctor
 import Control.Monad (foldM)
 
 fps :: Int
-fps = 1
+fps = 5
 
 wWidth :: Float
 wWidth = 1200.0
 wHeight :: Float
 wHeight = 800.0
 gSize :: Float
-gSize = 250.0
+gSize = 150.0
 
 cwSize :: Float
 cwSize = wWidth / gSize
@@ -30,7 +30,7 @@ cellCoords :: Matrix (Int, Int)
 cellCoords = bimap (round . (cwSize *) . (+ (-1))) (round . (chSize *) . (+ (-1))) <$> grid
 
 
-type Cell = ((Int, Int), Bool)
+type Cell = Bool
 
 newtype GameState = GameState {
   cells :: Matrix Cell
@@ -38,4 +38,4 @@ newtype GameState = GameState {
 
 initialState :: GameState
 initialState = GameState
-  $ fmap (\(a, b) -> ((a, b), b `mod` 7 == 0)) cellCoords
+  $ fmap (\(a, b) -> b `mod` 7 == 0) cellCoords

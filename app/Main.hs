@@ -9,20 +9,25 @@ import Neighboring
 
 import Data.Matrix
 
-shouldLive (x, y) grid = maybe False (\a -> a >= 2 && a <= 3) count
-  where
-    count = aliveNeighbors $ neighboring (x, y) grid
+shouldLive :: (Int, Int) -> Matrix Cell -> Bool
+shouldLive (x, y) = maybe False (\a -> a >= 2 && a <= 3)
+  . aliveNeighbors
+  . neighboring (x, y)
 
-asdf :: Matrix Cell -> Matrix Cell
-asdf grid = mapPos (\(x, y) (p, alive) -> (p, shouldLive (x, y) grid)) grid
+updateCells :: Matrix Cell -> Matrix Cell
+updateCells grid = mapPos (\(x, y) alive -> shouldLive (x, y) grid) grid
 
 main :: IO ()
 main = do
-
   simulate window black fps initialState render update
+
   where
     update :: ViewPort -> Float -> GameState -> GameState
-    update _ _ state = GameState $ asdf $ cells state
+    update _ _ = GameState . updateCells . cells
 
     render :: GameState -> Picture
-    render state = pictures $ toList $ fromCellCoords (cells state)
+    render = pictures
+           . toList
+           . fromCellCoords
+           . elementwise (,) cellCoords
+           . cells
