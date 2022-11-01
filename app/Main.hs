@@ -1,6 +1,5 @@
 module Main where
 
-import Data.Matrix
 import Game
 import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
@@ -12,6 +11,9 @@ shouldLive c = (\a -> a >= 2 && a <= 3) . aliveNeighbors c
 
 mapI :: (a -> Int -> c) -> [a] -> [c]
 mapI f l = zipWith f l [0 ..]
+
+toCoords :: [Bool] -> [((Int, Int), Bool)]
+toCoords g = mapI (\a i -> (toc i g, a)) g
 
 updateCells :: Grid Cell -> Grid Cell
 updateCells g = g
@@ -29,5 +31,5 @@ render :: GameState -> Picture
 render =
   pictures
     . fromCellCoords
-    . elementwise (,) cellCoords
+    . toCoords
     . cells
