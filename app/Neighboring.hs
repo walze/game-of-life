@@ -1,49 +1,26 @@
 module Neighboring where
-import Data.Matrix (Matrix, safeGet)
-import Game (Cell)
-import Control.Monad (foldM)
 
-data Neighboring a = Neighboring {
-  top :: Maybe a,
-  left :: Maybe a,
-  right :: Maybe a,
-  bottom :: Maybe a,
-  topleft :: Maybe a,
-  topright :: Maybe a,
-  bottomleft :: Maybe a,
-  bottomright :: Maybe a
-} deriving (Show)
+import Game
+import Grid
+import Prelude hiding (all)
 
-neighboring :: (Int, Int) -> Matrix a -> Neighboring a
-neighboring (x, y) g = Neighboring {
-    top = t,
-    left = l,
-    right = r,
-    bottom = b,
-    topleft = tl,
-    topright = tr,
-    bottomleft = bl,
-    bottomright = br
+data Neighboring a = Neighboring
+  { top :: Cell,
+    left :: Cell,
+    right :: Cell,
+    bottom :: Cell,
+    all :: [Cell]
   }
-  where
-    t  = safeGet   x      (y + 1) g
-    l  = safeGet  (x - 1)  y      g
-    r  = safeGet  (x + 1)  y      g
-    b  = safeGet   x      (y - 1) g
-    tl = safeGet  (x - 1) (y + 1) g
-    tr = safeGet  (x + 1) (y + 1) g
-    bl = safeGet  (x - 1) (y - 1) g
-    br = safeGet  (x + 1) (y - 1) g
 
-aliveNeighbors :: Neighboring Cell -> Maybe Int
-aliveNeighbors a =
-  foldM (\b cell ->
-    case cell of
-      Nothing -> Just b
-      Just alive -> Just (b + fromEnum alive)
-    ) 0
-  $ neighbors
-  <*> [a]
+neighboring :: Coords Int -> Grid Cell -> Neighboring a
+neighboring (x, y) g =
+  Neighboring t l r b all
   where
-    neighbors = [top, left, right, bottom, topleft, topright, bottomleft, bottomright]
+    t = getGrid g !! fromc g (x, y + 1)
+    l = getGrid g !! fromc g (x - 1, y)
+    r = getGrid g !! fromc g (x + 1, y)
+    b = getGrid g !! fromc g (x, y - 1)
+    all = [t, l, r, b]
 
+aliveNeighbors :: Coords Int -> Grid Cell -> Int
+aliveNeighbors c g = foldl (\b a -> b + fromEnum a) 0 $ all $ neighboring c g

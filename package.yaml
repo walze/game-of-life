@@ -24,7 +24,8 @@ dependencies:
 - gloss
 - matrix
 
-library: {}
+library:
+  source-dirs: lib
 
 executables:
   gameoflife-exe:

@@ -1,33 +1,33 @@
-module Main(main) where
+module Main where
 
-import Rendering
+import Data.Matrix
 import Game
 import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
-
+import Grid
 import Neighboring
+import Rendering
 
-import Data.Matrix
+shouldLive c = (\a -> a >= 2 && a <= 3) . aliveNeighbors c
 
-shouldLive :: (Int, Int) -> Matrix Cell -> Bool
-shouldLive (x, y) = maybe False (\a -> a >= 2 && a <= 3)
-  . aliveNeighbors
-  . neighboring (x, y)
+mapI :: (a -> Int -> c) -> [a] -> [c]
+mapI f l = zipWith f l [0 ..]
 
-updateCells :: Matrix Cell -> Matrix Cell
-updateCells grid = mapPos (\(x, y) alive -> shouldLive (x, y) grid) grid
+updateCells :: Grid Cell -> Grid Cell
+updateCells g = g
+  where
+    t = mapI (\a i -> shouldLive $ toc i g) g
 
 main :: IO ()
 main = do
   simulate window black fps initialState render update
-
   where
     update :: ViewPort -> Float -> GameState -> GameState
     update _ _ = GameState . updateCells . cells
 
-    render :: GameState -> Picture
-    render = pictures
-           . toList
-           . fromCellCoords
-           . elementwise (,) cellCoords
-           . cells
+render :: GameState -> Picture
+render =
+  pictures
+    . fromCellCoords
+    . elementwise (,) cellCoords
+    . cells
