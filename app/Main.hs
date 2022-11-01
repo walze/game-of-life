@@ -13,12 +13,10 @@ mapI :: (a -> Int -> c) -> [a] -> [c]
 mapI f l = zipWith f l [0 ..]
 
 toCoords :: [Bool] -> [((Int, Int), Bool)]
-toCoords g = mapI (\a i -> (toc i g, a)) g
+toCoords = mapI (\a i -> (toc i (round gSize), a))
 
 updateCells :: Grid Cell -> Grid Cell
-updateCells g = g
-  where
-    t = mapI (\a i -> shouldLive $ toc i g) g
+updateCells g = mapI (\a i -> shouldLive (toc i (round gSize)) g) g
 
 main :: IO ()
 main = do

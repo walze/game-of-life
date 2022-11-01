@@ -1,13 +1,17 @@
 module Grid where
 
 import Data.Functor.Identity (Identity)
+import System.Random
 
 type Coords a = (a, a)
 
 type Grid a = [a]
 
-toc i g = (i `mod` length g, i `div` length g)
+fromc (x, y) s = y * s + x
 
-fromc (x, y) g = x + y * length g
+toc i s = (i `div` s, i `mod` s)
 
-makeGrid n = [True | _ <- [1 .. n * n]]
+randomBool i = randoms (mkStdGen i) :: [Bool]
+
+makeGrid :: Int -> [Bool]
+makeGrid n = [head (randomBool i) | i <- [1 .. n * n]]

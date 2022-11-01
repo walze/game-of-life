@@ -2,6 +2,7 @@ module Game where
 
 import Graphics.Gloss
 import Grid
+import System.Random (random)
 
 type Cell = Bool
 
