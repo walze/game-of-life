@@ -3,7 +3,7 @@ module Game where
 import Config
 import Graphics.Gloss
 import Grid
-import System.Random
+import Lib
 
 data Cell = Cell (Int, Int) Bool
 
@@ -12,11 +12,8 @@ window = InWindow "Game of Life" (round wWidth, round wHeight) (10, 10)
   where
     (Config _ wWidth wHeight _ _) = config
 
-rb :: Int -> Bool
-rb i = head $ randoms (mkStdGen i)
-
 randomCell :: Coords Int -> Cell
-randomCell c@(x, y) = Cell c $ rb (x + y)
+randomCell c@(x, y) = Cell c $ randomBool (x + y)
 
 newtype GameState = GameState
   { cells :: Grid Cell

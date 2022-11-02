@@ -17,8 +17,8 @@ calc p' w c = -w / 2 + p * c + c / 2
   where
     p = fromIntegral p'
 
-fromCellCoords :: [Cell] -> [Picture]
-fromCellCoords =
+cellPictures :: [Cell] -> [Picture]
+cellPictures =
   fmap
     ( \(Cell (x, y) alive) ->
         translate (calc x w cw) (calc y h ch) $

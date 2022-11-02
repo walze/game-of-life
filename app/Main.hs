@@ -23,11 +23,11 @@ main :: IO ()
 main = do
   simulate window black 15 initialState render update
   where
+    render :: GameState -> Picture
+    render =
+      pictures
+        . cellPictures
+        . cells
+
     update :: ViewPort -> Float -> GameState -> GameState
     update _ _ = GameState . updateCells . cells
-
-render :: GameState -> Picture
-render =
-  pictures
-    . fromCellCoords
-    . cells
