@@ -10,14 +10,14 @@ import Graphics.Gloss
     white,
   )
 
-calc :: Integral a => a -> Float -> Float -> Float
-calc a b c = (fromIntegral a :: Float) - b / 2 + c / 2
-
-fromCellCoords :: [((Int, Int), Bool)] -> [Picture]
+fromCellCoords :: [Cell] -> [Picture]
 fromCellCoords =
   fmap
-    ( \((x, y), alive) ->
+    ( \(Cell (x, y) alive) ->
         translate (calc x wWidth cwSize) (calc y wHeight chSize) $
           color (if alive then white else black) $
             rectangleSolid (max 1 (cwSize - 1)) (max 1 (chSize - 1))
     )
+  where
+    calc :: Integral a => a -> Float -> Float -> Float
+    calc a b c = (fromIntegral a :: Float) - b / 2 + c / 2

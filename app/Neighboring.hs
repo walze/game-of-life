@@ -25,4 +25,4 @@ neighboring (x, y) g =
     s = round gSize
 
 aliveNeighbors :: Coords Int -> Grid Cell -> Int
-aliveNeighbors c g = foldl (\b a -> b + fromEnum a) 0 $ all $ neighboring c g
+aliveNeighbors c g = foldl (\b (Cell _ a) -> b + fromEnum a) 0 $ all $ neighboring c g

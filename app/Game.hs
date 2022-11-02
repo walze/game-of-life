@@ -2,9 +2,9 @@ module Game where
 
 import Graphics.Gloss
 import Grid
-import System.Random (random)
+import System.Random
 
-type Cell = Bool
+data Cell = Cell (Int, Int) Bool
 
 fps :: Int
 fps = 5
@@ -27,8 +27,10 @@ chSize = wHeight / gSize
 window :: Display
 window = InWindow "Game of Life" (round wWidth, round wHeight) (10, 10)
 
-grid :: Grid Bool
-grid = makeGrid (round gSize)
+rb :: Int -> Bool
+rb i = head $ randoms (mkStdGen i)
+
+grid = (\c@(x, y) -> Cell c $ rb (x + y)) <$> makeGrid (round gSize)
 
 newtype GameState = GameState
   { cells :: Grid Cell
