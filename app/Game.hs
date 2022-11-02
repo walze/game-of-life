@@ -7,7 +7,7 @@ import System.Random
 data Cell = Cell (Int, Int) Bool
 
 fps :: Int
-fps = 5
+fps = 50
 
 wWidth :: Float
 wWidth = 1200.0
@@ -16,7 +16,7 @@ wHeight :: Float
 wHeight = 800.0
 
 gSize :: Float
-gSize = 10.0
+gSize = 50.0
 
 cwSize :: Float
 cwSize = wWidth / gSize
