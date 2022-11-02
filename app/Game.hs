@@ -1,41 +1,26 @@
 module Game where
 
-import Data.Matrix
+import Config
 import Graphics.Gloss
-import Data.Bifunctor
-import Control.Monad (foldM)
+import Grid
+import Lib
 
-fps :: Int
-fps = 5
-
-wWidth :: Float
-wWidth = 1200.0
-wHeight :: Float
-wHeight = 800.0
-gSize :: Float
-gSize = 150.0
-
-cwSize :: Float
-cwSize = wWidth / gSize
-chSize :: Float
-chSize = wHeight / gSize
+data Cell = Cell (Int, Int) Bool
 
 window :: Display
 window = InWindow "Game of Life" (round wWidth, round wHeight) (10, 10)
+  where
+    (Config _ wWidth wHeight _ _) = config
 
-grid :: Matrix (Float, Float)
-grid = bimap fromIntegral fromIntegral <$> matrix (round gSize) (round gSize) id
+randomCell :: Coords Int -> Cell
+randomCell c@(x, y) = Cell c $ randomBool (x + y)
 
-cellCoords :: Matrix (Int, Int)
-cellCoords = bimap (round . (cwSize *) . (+ (-1))) (round . (chSize *) . (+ (-1))) <$> grid
-
-
-type Cell = Bool
-
-newtype GameState = GameState {
-  cells :: Matrix Cell
-} deriving (Show)
+newtype GameState = GameState
+  { cells :: Grid Cell
+  }
 
 initialState :: GameState
-initialState = GameState
-  $ fmap (\(a, b) -> b `mod` 7 == 0) cellCoords
+initialState =
+  GameState $ randomCell <$> makeGrid s
+  where
+    s = round $ size config

@@ -1,15 +1,29 @@
 module Rendering where
 
-import Data.Matrix
+import Config
+import Game (Cell (..))
 import Graphics.Gloss
-
-import Game
-
-calc a b c = (fromIntegral a :: Float) - b / 2 + c / 2
-
-fromCellCoords :: Matrix ((Int, Int), Bool) -> Matrix Picture
-fromCellCoords = fmap (\((x, y), alive) ->
-    translate (calc x wWidth cwSize) (calc y wHeight chSize) $
-    color (if alive then white else black) $
-    rectangleSolid (max 1 (cwSize - 1)) (max 1 (chSize - 1))
+  ( Picture,
+    black,
+    color,
+    rectangleSolid,
+    translate,
+    white,
   )
+import Lib (Cond ((:?)), (?))
+
+calc :: Int -> Float -> Float -> Float
+calc p' w c = -w / 2 + p * c + c / 2
+  where
+    p = fromIntegral p'
+
+cellPictures :: [Cell] -> [Picture]
+cellPictures =
+  fmap
+    ( \(Cell (x, y) alive) ->
+        translate (calc x w cw) (calc y h ch) $
+          color (alive ? white :? black) $
+            rectangleSolid cw ch
+    )
+  where
+    (Config _ w h cw ch) = config
