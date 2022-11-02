@@ -1,23 +1,27 @@
 module Main where
 
+import Config
 import Game
 import Graphics.Gloss
 import Graphics.Gloss.Data.ViewPort
 import Grid
+import Lib
 import Neighboring
 import Rendering
 
-shouldLive c = (\a -> a >= 2 && a <= 3) . aliveNeighbors c
+isAlive n = n >= 2 && n <= 3
 
-mapI :: (a -> Int -> c) -> [a] -> [c]
-mapI f l = zipWith f l [0 ..]
+shouldLive c = isAlive . aliveNeighbors c
 
 updateCells :: Grid Cell -> Grid Cell
-updateCells g = mapI (\(Cell c a) i -> Cell c $ shouldLive (toc i (round gSize)) g) g
+updateCells g = mapI f g
+  where
+    f (Cell c a) i = Cell c $ shouldLive (toc i s) g
+    s = round $ size config
 
 main :: IO ()
 main = do
-  simulate window black fps initialState render update
+  simulate window black 15 initialState render update
   where
     update :: ViewPort -> Float -> GameState -> GameState
     update _ _ = GameState . updateCells . cells

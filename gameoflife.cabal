@@ -25,7 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Ternary
+      Lib
   other-modules:
       Paths_gameoflife
   hs-source-dirs:
@@ -39,6 +39,7 @@ library
 executable gameoflife-exe
   main-is: Main.hs
   other-modules:
+      Config
       Game
       Grid
       Neighboring

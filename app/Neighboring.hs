@@ -1,5 +1,6 @@
 module Neighboring where
 
+import Config
 import Game
 import Grid
 import Prelude hiding (all)
@@ -21,8 +22,8 @@ neighboring (x, y) g =
     r = get (x + 1) y
     l = get (x - 1) y
     all = [t, l, r, b]
-    get x y = g !! fromc (x `mod` round gSize, y `mod` round gSize) s
-    s = round gSize
+    get x y = g !! fromc (x `mod` s, y `mod` s) s
+    s = round $ size config
 
 aliveNeighbors :: Coords Int -> Grid Cell -> Int
 aliveNeighbors c g = foldl (\b (Cell _ a) -> b + fromEnum a) 0 $ all $ neighboring c g

@@ -1,4 +1,4 @@
-module Ternary where
+module Lib where
 
 infixl 0 ?
 
@@ -9,3 +9,6 @@ data Cond a = a :? a
 (?) :: Bool -> Cond a -> a
 True ? (x :? _) = x
 False ? (_ :? y) = y
+
+mapI :: (a -> Int -> c) -> [a] -> [c]
+mapI f l = zipWith f l [0 ..]
