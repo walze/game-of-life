@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Grid
       Lib
   other-modules:
       Paths_gameoflife
@@ -41,7 +42,6 @@ executable gameoflife-exe
   other-modules:
       Config
       Game
-      Grid
       Neighboring
       Rendering
       Paths_gameoflife

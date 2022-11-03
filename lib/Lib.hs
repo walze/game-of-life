@@ -1,5 +1,6 @@
 module Lib where
 
+import Grid
 import System.Random
 
 infixl 0 ?

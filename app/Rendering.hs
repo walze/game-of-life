@@ -10,7 +10,7 @@ import Graphics.Gloss
     translate,
     white,
   )
-import Lib (Cond ((:?)), (?))
+import Lib
 
 calc :: Int -> Float -> Float -> Float
 calc p' w c = -w / 2 + p * c + c / 2
