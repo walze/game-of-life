@@ -2,22 +2,21 @@ module Game where
 
 import Config
 import Graphics.Gloss
+import Grid
 import Lib
 
-data Cell = Vec Bool
-
-type Grid = [Cell]
+type Cell = Vec Bool
 
 window :: Display
 window = InWindow "Game of Life" (round wWidth, round wHeight) (10, 10)
   where
     (Config _ wWidth wHeight _ _) = config
 
-randomCell :: Cell -> Cell
-randomCell c@(Vec x y _) = Cell c $ randomBool (x + y)
+randomCell :: Vec a -> Cell
+randomCell (Vec x y _) = Vec x y $ randomBool (x + y)
 
 newtype GameState = GameState
-  { cells :: Grid
+  { cells :: [Cell]
   }
 
 initialState :: GameState

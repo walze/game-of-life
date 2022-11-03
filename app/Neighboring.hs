@@ -13,8 +13,8 @@ data Neighboring a = Neighboring
     all :: [Cell]
   }
 
-neighboring :: Coords Int -> Grid Cell -> Neighboring a
-neighboring (x, y) g =
+neighboring :: Cell -> [Cell] -> Neighboring a
+neighboring (Vec x y a) g =
   Neighboring t l r b all
   where
     t = get x (y + 1)
@@ -22,8 +22,8 @@ neighboring (x, y) g =
     r = get (x + 1) y
     l = get (x - 1) y
     all = [t, l, r, b]
-    get x y = g !! fromc (x `mod` s, y `mod` s) s
+    get x y = g !! fromV (Vec (x `mod` s) (y `mod` s) a) g
     s = round $ size config
 
-aliveNeighbors :: Coords Int -> Grid Cell -> Int
-aliveNeighbors c g = foldl (\b (Cell _ a) -> b + fromEnum a) 0 $ all $ neighboring c g
+aliveNeighbors :: Cell -> [Cell] -> Int
+aliveNeighbors c g = foldl (\b (Vec _ _ a) -> b + fromEnum a) 0 $ all $ neighboring c g

@@ -13,11 +13,15 @@ isAlive n = n >= 2 && n <= 3
 
 shouldLive c = isAlive . aliveNeighbors c
 
-updateCells :: Grid Cell -> Grid Cell
+updateCell :: Int -> [Cell] -> Cell
+updateCell i g = Vec x y $ shouldLive c g
+  where
+    c@(Vec x y a) = a <$ toV i g
+
+updateCells :: [Cell] -> [Cell]
 updateCells g = mapI f g
   where
-    f (Cell c a) i = Cell c $ shouldLive (toc i s) g
-    s = round $ size config
+    f _ i = updateCell i g
 
 main :: IO ()
 main = do
