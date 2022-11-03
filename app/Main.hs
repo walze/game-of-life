@@ -23,15 +23,14 @@ updateCells g = mapI f g
   where
     f _ i = updateCell i g
 
-main :: IO ()
-main = do
-  simulate window black 15 initialState render update
-  where
-    render :: GameState -> Picture
-    render =
-      pictures
-        . cellPictures
-        . cells
+render :: GameState -> Picture
+render =
+  pictures
+    . cellPictures
+    . cells
 
-    update :: ViewPort -> Float -> GameState -> GameState
-    update _ _ = GameState . updateCells . cells
+update :: ViewPort -> Float -> GameState -> GameState
+update _ _ = GameState . updateCells . cells
+
+main :: IO ()
+main = simulate window black 15 initialState render update

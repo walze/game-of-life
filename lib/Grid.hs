@@ -7,7 +7,7 @@ data Vec a = Vec Int Int a deriving (Show, Eq)
 sqrtLength :: (Foldable f, Integral b) => f a -> b
 sqrtLength = round . sqrt . fromIntegral . length
 
-class Functor f => Grid f v where
+class (Functor f, Functor v) => Grid f v where
   get :: Foldable f => f a -> v b -> a
   toV :: Int -> f a -> v ()
   fromV :: v b -> f a -> Int
