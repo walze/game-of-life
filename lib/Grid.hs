@@ -9,7 +9,7 @@ sqrtLength = round . sqrt . fromIntegral . length
 
 class (Functor f, Functor g) => Grid f g where
   get :: Foldable f => f a -> g b -> a
-  toV :: Int -> f a -> g ()
+  toV :: Int -> f (g a) -> g a
   fromV :: g b -> f a -> Int
   makeGrid :: Int -> f (g ())
 
@@ -19,9 +19,7 @@ instance Functor Vec where
 instance Grid [] Vec where
   get fa v = fa !! fromV v fa
 
-  toV i fa = Vec (i `div` s) (i `mod` s) ()
-    where
-      s = sqrtLength fa
+  toV i fa = fa !! i
 
   fromV (Vec x y _) fa = sqrtLength fa * x + y
 

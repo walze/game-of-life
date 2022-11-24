@@ -5,7 +5,7 @@ import Game
 import Grid
 import Prelude hiding (all)
 
-data Neighboring a = Neighboring
+data Neighboring = Neighboring
   { top :: Cell,
     left :: Cell,
     right :: Cell,
@@ -13,7 +13,7 @@ data Neighboring a = Neighboring
     all :: [Cell]
   }
 
-neighboring :: Cell -> [Cell] -> Neighboring a
+neighboring :: Cell -> [Cell] -> Neighboring
 neighboring (Vec x y a) g =
   Neighboring t l r b all
   where
