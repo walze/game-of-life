@@ -1,7 +1,6 @@
 module Lib where
 
-import Grid
-import System.Random
+import System.Random (Random (randoms), mkStdGen)
 
 infixl 0 ?
 

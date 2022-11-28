@@ -32,9 +32,8 @@ library
   hs-source-dirs:
       lib
   build-depends:
-      Cabal
-    , base <5
-    , gloss
+      base <5
+    , gloss <1.14
     , random
   default-language: Haskell2010
 
@@ -52,6 +51,6 @@ executable gameoflife-exe
   build-depends:
       base <5
     , gameoflife
-    , gloss
+    , gloss <1.14
     , random
   default-language: Haskell2010

@@ -7,10 +7,9 @@ data Vec a = Vec Int Int a deriving (Show, Eq)
 sqrtLength :: (Foldable f, Integral b) => f a -> b
 sqrtLength = round . sqrt . fromIntegral . length
 
-class (Functor f, Functor g) => Grid f g where
+class (Foldable f, Functor g) => Grid f g where
   get :: Foldable f => f a -> g b -> a
-  toV :: Int -> f (g a) -> g a
-  fromV :: g b -> f a -> Int
+  fromV :: g a -> f b -> Int
   makeGrid :: Int -> f (g ())
 
 instance Functor Vec where
@@ -18,8 +17,6 @@ instance Functor Vec where
 
 instance Grid [] Vec where
   get fa v = fa !! fromV v fa
-
-  toV i fa = fa !! i
 
   fromV (Vec x y _) fa = sqrtLength fa * x + y
 

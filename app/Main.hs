@@ -16,7 +16,7 @@ shouldLive c = isAlive . aliveNeighbors c
 updateCell :: Int -> [Cell] -> Cell
 updateCell i g = Vec x y $ shouldLive c g
   where
-    c@(Vec x y a) = toV i g
+    c@(Vec x y a) = g !! i
 
 updateCells :: [Cell] -> [Cell]
 updateCells g = mapI f g
