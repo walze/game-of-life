@@ -13,18 +13,14 @@ import Graphics.Gloss
 import Grid
 import Lib
 
-calc :: Int -> Float -> Float -> Float
-calc p' w c = -w / 2 + p * c + c / 2
-  where
-    p = fromIntegral p'
+offset :: Int -> Float -> Float -> Float
+offset position size container = -size / 2 + fromIntegral position * container + container / 2
+
+rect :: Config -> Cell -> Picture
+rect (Config _ w h cw ch) (Vec x y alive) =
+  translate (offset x w cw) (offset y h ch) $
+    color (alive ? white :? black) $
+      rectangleSolid cw ch
 
 cellPictures :: [Cell] -> [Picture]
-cellPictures =
-  fmap
-    ( \(Vec x y alive) ->
-        translate (calc x w cw) (calc y h ch) $
-          color (alive ? white :? black) $
-            rectangleSolid cw ch
-    )
-  where
-    (Config _ w h cw ch) = config
+cellPictures = (rect config <$>)

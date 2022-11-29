@@ -23,6 +23,7 @@ dependencies:
 - base < 5
 - gloss < 1.14
 - random
+- gloss-raster < 1.14
 
 library:
   source-dirs: lib
