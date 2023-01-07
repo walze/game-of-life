@@ -48,7 +48,7 @@ executable gameoflife-exe
       Paths_gameoflife
   hs-source-dirs:
       app
-  ghc-options: -threaded
+  ghc-options: -O3 -threaded
   build-depends:
       base <5
     , gameoflife
